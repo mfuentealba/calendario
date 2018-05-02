@@ -6,9 +6,12 @@ import { FullCalendarModule } from 'ng-fullcalendar';
 
 import { AppComponent } from './app.component';
 import { EventSesrvice } from './event.service';
+
+import { ModalAgendarComponent } from './components/modal.agendar/modal.agendar.component';
+
 @NgModule({
   imports:      [ BrowserModule, FormsModule, FullCalendarModule ],
-  declarations: [ AppComponent ],
+  declarations: [ AppComponent, ModalAgendarComponent ],
   bootstrap:    [ AppComponent ],
   providers: [ EventSesrvice ]
 })

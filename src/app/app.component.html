@@ -1,6 +1,76 @@
-<a (click)="loadevents()"> loadevents</a>
-<p>Display event : {{displayEvent | json}}</p>
-<div *ngIf="calendarOptions">
-    <ng-fullcalendar #ucCalendar [options]="calendarOptions" (eventClick)="eventClick($event.detail)" (eventDrop)="updateEvent($event.detail)"
-        (eventResize)="updateEvent($event.detail)" (dayClick)="dayClick($event.detail)" (clickButton)="clickButton($event.detail)" [(eventsModel)]="events"></ng-fullcalendar>
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <a (click)="loadevents()"> loadevents</a>
+        <p>Display event : {{displayEvent | json}}</p>
+        <div *ngIf="calendarOptions">
+            <ng-fullcalendar href="#myModal" id="ucCalendar" #ucCalendar [options]="calendarOptions" data-toggle="modal" (eventClick)="eventClick($event.detail)" (eventDrop)="updateEvent($event.detail)"
+                (eventResize)="updateEvent($event.detail)" (dayClick)="dayClick($event.detail, ucCalendar)" (clickButton)="clickButton($event.detail)" [(eventsModel)]="events"></ng-fullcalendar>
+        </div>
+    </div>
+    <div class="col-md-3"></div>
 </div>
+
+
+
+
+<!-- Button HTML (to Trigger Modal) -->
+<a href="#myModal" role="button" class="btn btn-danger" data-toggle="modal">
+    <span class="glyphicon glyphicon-trash"></span>
+</a>
+
+<!-- Modal HTML -->
+<div id="myModal" #modal class="modal fade"><!--Se concatena id de la publicacion para poder generar un modal unico por elemento, seto se puede evitar de mejor manera-->
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Agendar Hora</h4>
+        </div>
+        <div class="modal-body">
+            <p *ngIf="eventoNuevo">Fecha: {{eventoNuevo.date.format('LLLL')}}</p>
+            <p class="text-warning"><small>Cuidado con esta opción.</small></p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Borrar la publicación</button>
+        </div>
+    </div>
+</div>
+</div>
+
+<modal-agendar #deleteUserModal id="deleteUser"
+   [show-modal]="isModalOpen"
+   [title]="'Delete'"
+   >
+  <div class="popup-content">
+    <p>Are you sure you want to delete the user permanently?</p>
+  </div>
+  <div class="popup-footer">
+    <button class="btn cancel"  aria-label="Close" (click)="deleteUserModal.hide()">
+        Cancel
+    </button>
+    <button type="button" class="btn btn-primary" (click)="deleteSelectedUser(deleteUserModal)" aria-label="Close">
+        Delete
+    </button>
+   </div>
+ </modal-agendar>
+
+<button type="button" class="btn btn-info btn-lg" (click)="openModal()">click to open</button>
+<div class="backdrop" [ngStyle]="{'display':display}"></div>
+<div class="modal" tabindex="-1" role="dialog"  [ngStyle]="{'display':display}">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="onCloseHandled()"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Model Title</h4>
+      </div>
+      <div class="modal-body">
+        <p>Model body text</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="onCloseHandled()" >Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal !-->

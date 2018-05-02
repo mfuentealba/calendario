@@ -3,6 +3,9 @@ import { CalendarComponent } from 'ng-fullcalendar';
 import { Options } from 'fullcalendar';
 import { EventSesrvice } from './event.service';
 
+import { ModalAgendarComponent } from './components/modal.agendar/modal.agendar.component';
+
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -12,7 +15,11 @@ export class AppComponent implements OnInit  {
   calendarOptions: Options;
   displayEvent: any;
   events = null;
+  public eventoNuevo:any;
   @ViewChild(CalendarComponent) ucCalendar: CalendarComponent;
+  public isModalOpen:boolean = true;
+  public display:string = 'none';
+  
   constructor(protected eventService: EventSesrvice) { }
 
   ngOnInit() {
@@ -24,6 +31,7 @@ export class AppComponent implements OnInit  {
         center: 'title',
         right: 'month,agendaWeek,agendaDay,listMonth'
       },
+      locale: 'es',
       events: []
     };
   }
@@ -35,10 +43,18 @@ export class AppComponent implements OnInit  {
   clickButton(model: any) {
     this.displayEvent = model;
   }
-  dayClick(model: any) {
-    console.log(model);
+  dayClick(model: any, ucCalendar:CalendarComponent) {
+    this.eventoNuevo = model;
+    console.log($(this));
+    $(this).css('background-color', 'red');
+    //this.openModal(true);
+    
   }
+
+  
+
   eventClick(model: any) {
+    console.log("eventClick");
     model = {
       event: {
         id: model.event.id,
@@ -67,4 +83,16 @@ export class AppComponent implements OnInit  {
     }
     this.displayEvent = model;
   }
+
+  openModal(){
+    this.display='block';
+ }
+
+ onCloseHandled(){
+
+
+  this.display='none'; 
+
+
+}
 }
